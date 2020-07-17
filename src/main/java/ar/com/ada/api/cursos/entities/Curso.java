@@ -25,4 +25,6 @@ public class Curso {
     private List<Clase> clases;
     @ManyToMany(mappedBy = "cursos")
     private List<Categoria> categorias;
+    @OneToMany(mappedBy = "inscripcion")
+    private Inscripcion inscripcion;
 }

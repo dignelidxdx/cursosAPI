@@ -12,6 +12,7 @@ public class Docente extends Persona {
     @Column(name = "docente_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer docenteId;
+    @ManyToMany
     @JoinTable(name = "docente_x_curso", joinColumns = @JoinColumn(name = "docente_id"), inverseJoinColumns = @JoinColumn(name = "curso_id"))
     private List<Curso> cursosQueDicta;
     @OneToOne(mappedBy = "docente") // el nombre del atributo en el objeto usuario

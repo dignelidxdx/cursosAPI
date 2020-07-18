@@ -17,4 +17,22 @@ public class Docente extends Persona {
     private List<Curso> cursosQueDicta;
     @OneToOne(mappedBy = "docente") // el nombre del atributo en el objeto usuario
     private Usuario usuario;
+	public Integer getDocenteId() {
+		return docenteId;
+	}
+	public void setDocenteId(Integer docenteId) {
+		this.docenteId = docenteId;
+	}
+	public List<Curso> getCursosQueDicta() {
+		return cursosQueDicta;
+	}
+	public void setCursosQueDicta(List<Curso> cursosQueDicta) {
+		this.cursosQueDicta = cursosQueDicta;
+	}
+	public Usuario getUsuario() {
+		return usuario;
+	}
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
 }

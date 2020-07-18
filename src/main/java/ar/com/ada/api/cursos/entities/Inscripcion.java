@@ -49,4 +49,44 @@ public class Inscripcion {
         }
     }
 
+	public Integer getInscripcionId() {
+		return inscripcionId;
+	}
+
+	public void setInscripcionId(Integer inscripcionId) {
+		this.inscripcionId = inscripcionId;
+	}
+
+	public Curso getCurso() {
+		return curso;
+	}
+
+	public void setCurso(Curso curso) {
+		this.curso = curso;
+	}
+
+	public Date getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public EstadoInscripcionEnum getEstadoInscripcionId() {
+		return estadoInscripcionId;
+	}
+
+	public void setEstadoInscripcionId(EstadoInscripcionEnum estadoInscripcionId) {
+		this.estadoInscripcionId = estadoInscripcionId;
+	}
+
 }

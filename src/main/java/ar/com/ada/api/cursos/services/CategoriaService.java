@@ -24,6 +24,9 @@ public class CategoriaService {
         repoCategoria.save(categoria);
         return categoria;
     }
+    public List<Categoria> obtenerCategoria() {
+        return (repoCategoria.findAll());
+    }
 
     public Categoria buscarPorId(Integer id) {
         Optional<Categoria> opCategoria = repoCategoria.findById(id);

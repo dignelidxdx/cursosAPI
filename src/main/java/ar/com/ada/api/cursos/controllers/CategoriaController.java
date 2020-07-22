@@ -1,5 +1,7 @@
 package ar.com.ada.api.cursos.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,11 @@ public class CategoriaController {
     @Autowired
     CategoriaService categoriaService;
 
+    @GetMapping("/categorias")
+    public ResponseEntity<List<Categoria>> listarCategorias(){
+        return ResponseEntity.ok(categoriaService.obtenerCategoria());
+   
+    }
     // Post: que recibios algo, que nos permite instanciar una Categoria y ponerle
     // datos.
     @PostMapping("/categorias")

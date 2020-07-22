@@ -7,7 +7,7 @@
 
 Antes de seguir  se debe definir cual va a ser el Patrón de Arquitectura, en este caso se usará MVC (modelo, vista controler) que vienen siendo > (entities, Repos, Services, Controllers).
 
-- Capa de negocio Modelo: acá podemos determinar como será el mapeo o conexión a la base de datos.
+- Capa de Modelo: acá podemos determinar como será el mapeo o conexión a la base de datos.
 Anotaciones:  - Al crear la clase se usa las anotaciones siguintes:
                     -@Entity, 
                     -@Table(name = "nombre_tabla")
@@ -19,10 +19,12 @@ Anotaciones:  - Al crear la clase se usa las anotaciones siguintes:
     Para los demás registros sin relación
                     -@Column(name  "nombre_columna")  (Solo para los tipos de datos primitivos, Enum, Integer)
     Para los registros que están relacionadas entre tablas
+
+    
             -Uno a Muchos:  (Recordando que la clase de origen va declara como lista el objeto que esta relacionado como a muchos)
+
                     -@OneToMany(mappedBy = "nombre_tabla_origen", cascade = cascadeType = ALL)
-                    -@LazyCollection(lazyCollectionOption.FALSE) 
-                    
+                    -@LazyCollection(lazyCollectionOption.FALSE)                     
                         TO
             -Muchos a Uno:  (En esta no va el mappedBy)
                     -@ManyToOne
@@ -43,4 +45,13 @@ Anotaciones:  - Al crear la clase se usa las anotaciones siguintes:
 
 5. definir un camino para probar si funciona. hacer Testing o empezar por Repository y Service
 
-6. Empezando con Service:
+6. Empezando con Repository: son una interfaz que extiende de: JpaRepository<Categoria, Integer>
+
+7. Empezando con Service: usa @Service y @Autowired para la repo.
+
+8. Empezando con Controllers: usa @RestController para la clase y @Autowired para la repo.  @PostMapping para los metodos que se usaran en Postman para hacer peticiones y probar el status de la data.
+
+9. Creando Models GenericResponse.
+
+
+

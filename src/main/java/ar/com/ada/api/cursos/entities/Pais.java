@@ -41,16 +41,20 @@ public class Pais {
             return value;
         }
 
-        public static TipoDocuEnum parse(Integer id) {
+        public static TipoDocuEnum parse(TipoDocuEnum tipoDocumentoId) {
             TipoDocuEnum status = null; // Default
             for (TipoDocuEnum item : TipoDocuEnum.values()) {
-                if (item.getValue().equals(id)) {
+                if (item.getValue().equals(tipoDocumentoId)) {
                     status = item;
                     break;
                 }
             }
             return status;
         }
+
+		public static TipoDocuEnum parse(Integer tipoDocumentoId) {
+			return null;
+		}
     }
 
 }

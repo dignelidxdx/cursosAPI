@@ -1,8 +1,12 @@
 package ar.com.ada.api.cursos.entities;
 
-import java.util.List;
+import java.util.*;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -15,63 +19,83 @@ public class Curso {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer cursoId;
     private String nombre;
-    // cursosDictados para diferenciar los cursos de docente de los de estudiante
+    private String descripcion;
+    // cursosQueDicta para diferenciar los cursos de docente de los de estudiante
     @ManyToMany(mappedBy = "cursosQueDicta")
-    private List<Docente> docentes;
+    private List<Docente> docentes = new ArrayList<>();;
     @ManyToMany(mappedBy = "cursosQueAsiste")
-    private List<Estudiante> estudiantes;
+    private List<Estudiante> estudiantes = new ArrayList<>();;
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Clase> clases;
+    @JsonProperty(access = Access.READ_ONLY)
+
+    @JsonIgnore
     @ManyToMany(mappedBy = "cursos")
-    private List<Categoria> categorias;
+    private List<Categoria> categorias = new ArrayList<>();
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Inscripcion> inscripciones;
-	public Integer getCursoId() {
-		return cursoId;
-	}
-	public void setCursoId(Integer cursoId) {
-		this.cursoId = cursoId;
-	}
-	public String getNombre() {
-		return nombre;
-	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-	public List<Docente> getDocentes() {
-		return docentes;
-	}
-	public void setDocentes(List<Docente> docentes) {
-		this.docentes = docentes;
-	}
-	public List<Estudiante> getEstudiantes() {
-		return estudiantes;
-	}
-	public void setEstudiantes(List<Estudiante> estudiantes) {
-		this.estudiantes = estudiantes;
-	}
-	public List<Clase> getClases() {
-		return clases;
-	}
-	public void setClases(List<Clase> clases) {
-		this.clases = clases;
-	}
-	public List<Categoria> getCategorias() {
-		return categorias;
-	}
-	public void setCategorias(List<Categoria> categorias) {
-		this.categorias = categorias;
-	}
-	public List<Inscripcion> getInscripciones() {
-		return inscripciones;
-	}
-	public void setInscripciones(List<Inscripcion> inscripciones) {
-		this.inscripciones = inscripciones;
-	}
+    private List<Inscripcion> inscripciones = new ArrayList<>();;
+    @Column(name = "duracion_horas")
+    private Integer duracionHoras;
 
-	public void asignarDocente(Docente docente) {
+    public Integer getCursoId() {
+        return cursoId;
+    }
+
+    public void setCursoId(Integer cursoId) {
+        this.cursoId = cursoId;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public List<Docente> getDocentes() {
+        return docentes;
+    }
+
+    public void setDocentes(List<Docente> docentes) {
+        this.docentes = docentes;
+    }
+
+    public List<Estudiante> getEstudiantes() {
+        return estudiantes;
+    }
+
+    public void setEstudiantes(List<Estudiante> estudiantes) {
+        this.estudiantes = estudiantes;
+    }
+
+    public List<Clase> getClases() {
+        return clases;
+    }
+
+    public void setClases(List<Clase> clases) {
+        this.clases = clases;
+    }
+
+    public List<Categoria> getCategorias() {
+        return categorias;
+    }
+
+    public void setCategorias(List<Categoria> categorias) {
+        this.categorias = categorias;
+    }
+
+    public List<Inscripcion> getInscripciones() {
+        return inscripciones;
+    }
+
+    public void setInscripciones(List<Inscripcion> inscripciones) {
+        this.inscripciones = inscripciones;
+    }
+
+    public void asignarDocente(Docente docente) {
         // this refiere a la instancia de la clase cursos actualmente ejecutando el
         // codigo (el metodo asignar docente)
         // docentes refiere al atributo lista de docentes que están asignados a ese
@@ -106,4 +130,21 @@ public class Curso {
         this.inscripciones.add(inscripcion);
         inscripcion.setCurso(this);
     }
+
+    public Integer getDuracionHoras() {
+        return duracionHoras;
+    }
+
+    public void setDuracionHoras(Integer duracionHoras) {
+        this.duracionHoras = duracionHoras;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
 }

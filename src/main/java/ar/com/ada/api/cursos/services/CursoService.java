@@ -1,15 +1,18 @@
 package ar.com.ada.api.cursos.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ar.com.ada.api.cursos.entities.Curso;
+import ar.com.ada.api.cursos.models.request.CursoRequest;
 import ar.com.ada.api.cursos.repos.CursoRepository;
 
 @Service
 public class CursoService {
-     // es un atributo de la clase CursoService
-     @Autowired
+    // es un atributo de la clase CursoService
+    @Autowired
     CursoRepository cursoRepository;
     @Autowired
     CategoriaService categoriaService;
@@ -22,10 +25,12 @@ public class CursoService {
         return true;
     }
 
-    public Curso crearCurso(String nombre, Integer categoriaId) {
+    public Curso crearCurso(String nombre, Integer categoriaId, Integer duracionHoras, String descripcion) {
         Curso curso = new Curso();
         curso.setNombre(nombre);
         curso.agregarCategoria(categoriaService.buscarPorId(categoriaId));
+        curso.setDuracionHoras(duracionHoras);
+        curso.setDescripcion(descripcion);
         // llamo al metodo creado en la linea 19
         boolean cursoCreado = crearCurso(curso);
         if (cursoCreado)
@@ -40,7 +45,9 @@ public class CursoService {
 
     }
 
+    public List<Curso> listaCursos() {
 
+        return cursoRepository.findAll();
 
-    
+    }
 }

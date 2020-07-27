@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import ar.com.ada.api.cursos.entities.*;
+import ar.com.ada.api.cursos.models.request.CategoriaModifRequest;
+import ar.com.ada.api.cursos.models.response.CategoriaResponse;
 import ar.com.ada.api.cursos.models.response.GenericResponse;
 import ar.com.ada.api.cursos.services.*;
 
@@ -41,4 +43,40 @@ public class CategoriaController {
         return ResponseEntity.ok(r);
 
     }
+
+    @PutMapping(("/api/categorias/{id}"))
+    public ResponseEntity<GenericResponse> actualizarCategoriaPorId(@PathVariable Integer id,
+            @RequestBody CategoriaModifRequest cMR) {
+        Categoria categoria = categoriaService.buscarPorId(id);
+        if (categoria == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        categoria.setNombre(cMR.nombre);
+        categoria.setDescripcion(cMR.descripcion);
+        Categoria categoriaActualizada = categoriaService.actualizarCategoria(categoria);
+
+        GenericResponse r = new GenericResponse();
+        r.isOk = true;
+        r.message = "Categoria actualizada con éxito";
+        r.id = categoriaActualizada.getCategoriaId();
+
+        return ResponseEntity.ok(r);
+    }
+
+    @GetMapping("/api/categorias/{id}")
+    public ResponseEntity<CategoriaResponse> buscarPorIdCategoria(@PathVariable Integer id) {
+        Categoria categoria = categoriaService.buscarPorId(id);
+        
+        if (categoria == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        CategoriaResponse cGR = new CategoriaResponse();
+        cGR.nombre = categoria.getNombre();
+        cGR.descripcion = categoria.getDescripcion();
+
+        return ResponseEntity.ok(cGR);
+    }
+
 }

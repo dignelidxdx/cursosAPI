@@ -1,5 +1,6 @@
 package ar.com.ada.api.cursos.entities;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class Usuario {
     private Docente docente;
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Inscripcion> inscripciones;
+    private List<Inscripcion> inscripciones = new ArrayList<>();
 
     public enum TipoUsuarioEnum {
         DOCENTE(1), ESTUDIANTE(2), STAFF(3);

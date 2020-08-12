@@ -21,7 +21,7 @@ public class Inscripcion {
     @JoinColumn(name = "usuario_id", referencedColumnName = "usuario_id")
     private Usuario usuario;
     @Column(name = "estado_inscripcion_id")
-    private EstadoInscripcionEnum estadoInscripcionId;
+    private EstadoInscripcionEnum estadoInscripcion;
 
     public enum EstadoInscripcionEnum {
         INACTIVO(0), ACTIVO(1);
@@ -81,12 +81,12 @@ public class Inscripcion {
 		this.usuario = usuario;
 	}
 
-	public EstadoInscripcionEnum getEstadoInscripcionId() {
-		return estadoInscripcionId;
+	public EstadoInscripcionEnum getEstadoInscripcion() {
+		return estadoInscripcion;
 	}
 
-	public void setEstadoInscripcionId(EstadoInscripcionEnum estadoInscripcionId) {
-		this.estadoInscripcionId = estadoInscripcionId;
+	public void setEstadoInscripcion(EstadoInscripcionEnum estadoInscripcion) {
+		this.estadoInscripcion = estadoInscripcion;
 	}
 
 }

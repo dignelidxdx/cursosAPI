@@ -17,7 +17,7 @@ public class Docente extends Persona {
     @JoinTable(name = "docente_x_curso", joinColumns = @JoinColumn(name = "docente_id"), inverseJoinColumns = @JoinColumn(name = "curso_id"))
     @JsonIgnore
     private List<Curso> cursosQueDicta = new ArrayList<>();
-    @OneToOne(mappedBy = "docente")
+    @OneToOne(mappedBy = "docente", cascade = CascadeType.ALL)
     @JsonIgnore
     private Usuario usuario;
 
@@ -43,6 +43,7 @@ public class Docente extends Persona {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+        usuario.setDocente(this);
     }
 
 }

@@ -43,7 +43,7 @@ public class Docente extends Persona {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
-        usuario.setDocente(this);
+        this.usuario.setDocente(this);
     }
 
 }

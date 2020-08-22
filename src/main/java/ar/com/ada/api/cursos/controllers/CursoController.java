@@ -1,6 +1,8 @@
 package ar.com.ada.api.cursos.controllers;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,12 +14,15 @@ import ar.com.ada.api.cursos.models.request.CursoAsigDocRequest;
 import ar.com.ada.api.cursos.models.request.CursoRequest;
 import ar.com.ada.api.cursos.models.response.GenericResponse;
 import ar.com.ada.api.cursos.services.CursoService;
+import ar.com.ada.api.cursos.services.UsuarioService;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import ar.com.ada.api.cursos.entities.*;
+import ar.com.ada.api.cursos.entities.Usuario.TipoUsuarioEnum;
 
 @RestController
 public class CursoController {
@@ -25,8 +30,26 @@ public class CursoController {
   @Autowired
   CursoService cursoService;
 
+  @Autowired
+  UsuarioService usuarioService;
+
   @PostMapping("/api/cursos")
-  public ResponseEntity<GenericResponse> crearCurso(@RequestBody CursoRequest cursoReq) {
+ // @PreAuthorize("@usuarioService.buscarPorUsername(principal.getUserName()).getTipoUsuarioId().getValue() == 3") //En este caso quiero que sea STAFF(3)
+  public ResponseEntity<GenericResponse> crearCurso(Principal principal, @RequestBody CursoRequest cursoReq) {
+
+
+    Usuario usuario = usuarioService.buscarPorUsername(principal.getName());
+
+    if(usuario.getTipoUsuarioId() != TipoUsuarioEnum.ESTUDIANTE) {
+        //chau chau y le damos un 403: Forbidden
+        //Este le avismos que hay algo, pero no lo dejamos entrar
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+
+        //en vez de tirar un 403, tiramos un 404(Not Found) y le mentimos.
+        //en este caso ni siquiera le contamos qeu hay algo ahi como para que pueda
+        // seguir intentando.
+        //return ResponseEntity.notFound().build();
+    }
 
     Curso cursoCreado = cursoService.crearCurso(cursoReq.nombre, cursoReq.categoriaId, cursoReq.duracionHoras,
         cursoReq.descripcion);

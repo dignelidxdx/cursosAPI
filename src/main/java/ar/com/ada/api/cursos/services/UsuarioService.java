@@ -52,7 +52,7 @@ public class UsuarioService {
     return u;
   }
 
-  public Usuario crearUsuario(TipoUsuarioEnum tipoUsuario, String nombre, int pais, TipoDocuEnum tipoDocumento,
+  public Usuario crearUsuario(TipoUsuarioEnum tipoUsuario, String nombre, Integer pais, TipoDocuEnum tipoDocumento,
       String documento, Date fechaNacimiento, String email, String password) {
 
     // Crear usuario: REGISTRA Un nuevo usuario
@@ -61,6 +61,7 @@ public class UsuarioService {
     Usuario usuario = new Usuario();
     usuario.setTipoUsuarioId(tipoUsuario);
     usuario.setUsername(email);
+    usuario.setFullName(nombre);
     usuario.setPassword(Crypto.encrypt(password, email.toLowerCase()));
     usuario.setEmail(email);
     switch (tipoUsuario) {
@@ -68,6 +69,7 @@ public class UsuarioService {
 
         Estudiante estudiante = new Estudiante();
         estudiante.setNombre(nombre);
+
         estudiante.setPaisId(pais);
         estudiante.setTipoDocumentoId(tipoDocumento);
         estudiante.setDocumento(documento);
@@ -93,7 +95,7 @@ public class UsuarioService {
     }
 
     //Aca enviamos email.
-    emailService.SendEmail(usuario.getEmail(), "Curso Pinturillo: Registracion exitossa!!!", "Hola "+ usuario.getUsername() + ", bienvenida al sistema de cursos");
+    emailService.SendEmail(usuario.getEmail(), "Curso Pinturillo: Registracion exitossa!!!", "Hola "+ usuario.getFullName() + ", bienvenida al sistema de cursos");
 
     return usuario;
 

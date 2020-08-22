@@ -14,7 +14,7 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "usuario_id")
     private Integer usuarioId;
-    @Column(name = "full_name")
+    @Column(name = "ful_name")
     private String fullName;
     private String username;
     private String password;
@@ -145,4 +145,13 @@ public class Usuario {
         }
         return null;
     }
+
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
 }

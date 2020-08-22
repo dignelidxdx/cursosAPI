@@ -43,7 +43,7 @@ public class EstudianteService {
         estudiante.setTipoDocumentoId(TipoDocuEnum);
         estudiante.setDocumento(documento);
         estudiante.setFechaNacimiento(fechaNacimiento);
-        // llamo al metodo creado en la linea 19
+
         boolean estudianteCreado = crearEstudiante(estudiante);
         if (estudianteCreado)
             return estudiante;
@@ -77,20 +77,18 @@ public class EstudianteService {
     }
 
     public Inscripcion inscribir(Integer estudianteId, Integer cursoId) {
-        // TODO:buscar el estudiante por Id
-        // buscar el curso por Id;
-        // Crear la inscripcion(aprobada por defecto)
-        // Asignar la inscripcion al Usuario del Estudiante
-        // Agregar el Estudiante a la Lista de Estudiantes que tiene Curso
 
-        Estudiante estudiante = buscarPorId(estudianteId);
+        if(this.inscripcionExiste(cursoId, estudianteId)){
+            return null;
+        }
+
+        Estudiante estudiante = buscarPorId(estudianteId);        
         Curso curso = cursoService.buscarPorId(cursoId);
         Inscripcion inscripcion = new Inscripcion();
 
         inscripcion.setFecha(new Date());
         inscripcion.setEstadoInscripcion(EstadoInscripcionEnum.ACTIVO);
 
-        // inscripcion.setCurso(curso);
         inscripcion.setUsuario(estudiante.getUsuario());
 
         curso.agregarInscripcion(inscripcion);
@@ -98,6 +96,15 @@ public class EstudianteService {
 
         estudianteRepo.save(estudiante);
         return inscripcion;
+    }
+
+    public boolean inscripcionExiste(Integer cursoId, Integer estudianteId) {
+
+        if (estudianteRepo.existsInscripcion(cursoId, estudianteId)) 
+            return true;                  
+        else
+            return false;
+
     }
 
 }

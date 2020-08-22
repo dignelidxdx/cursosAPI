@@ -8,9 +8,6 @@ import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
 import kong.unirest.UnirestException;
 
-/**
- * EmailService
- */
 @Service
 public class EmailService {
 
@@ -31,7 +28,6 @@ public class EmailService {
     @Value("${emailSettings.enabled}")
     public boolean enabled;
 
-    // Basico
     public void SendEmail(String email, String subject, String message) throws UnirestException {
 
         if (!this.enabled)

@@ -16,12 +16,16 @@ public class Clase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer claseId;
     private Integer numero;
+    
     @ManyToOne
     @JoinColumn(name = "curso_id", referencedColumnName = "curso_id")
     private Curso curso;
+
     private String titulo;
     @Column(name = "duracion_horas")
+
     private Integer duracionHoras;
+    
     @OneToMany(mappedBy = "clase", cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Contenido> contenidos = new ArrayList<>();

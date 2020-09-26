@@ -23,9 +23,11 @@ public class Usuario {
     private Date fechaLogin;
     @Column(name = "tipo_usuario_id")
     private Integer tipoUsuarioId;
+
     @OneToOne
     @JoinColumn(name = "estudiante_id", referencedColumnName = "estudiante_id")
     private Estudiante estudiante;
+    
     @OneToOne
     @JoinColumn(name = "docente_id", referencedColumnName = "docente_id")
     private Docente docente;

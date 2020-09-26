@@ -69,7 +69,6 @@ public class UsuarioService {
 
         Estudiante estudiante = new Estudiante();
         estudiante.setNombre(nombre);
-
         estudiante.setPaisId(pais);
         estudiante.setTipoDocumentoId(tipoDocumento);
         estudiante.setDocumento(documento);
@@ -89,7 +88,7 @@ public class UsuarioService {
         docenteService.crearDocente(docente);
         break;
 
-      case STAFF :
+      case STAFF:
         usuarioRepository.save(usuario);
         break;
     }

@@ -13,10 +13,12 @@ public class Estudiante extends Persona {
     @Column(name = "estudiante_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer estudianteId;
+
     @JsonIgnore
     @ManyToMany
     @JoinTable(name = "estudiante_x_curso", joinColumns = @JoinColumn(name = "estudiante_id"), inverseJoinColumns = @JoinColumn(name = "curso_id"))
     private List<Curso> cursosQueAsiste = new ArrayList<>();
+   
     @JsonIgnore
     @OneToOne(mappedBy = "estudiante", cascade = CascadeType.ALL) // nombre del atributo en el obj usuario
     private Usuario usuario;

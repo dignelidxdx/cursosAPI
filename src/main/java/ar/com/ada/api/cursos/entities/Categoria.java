@@ -16,10 +16,13 @@ public class Categoria {
     private Integer categoriaId;
     private String nombre;
 	private String descripcion;
+
 	@JsonIgnore
     @ManyToMany
     @JoinTable(name = "curso_x_categoria", joinColumns = @JoinColumn(name = "categoria_id"), inverseJoinColumns = @JoinColumn(name = "curso_id"))
     private List<Curso> cursos = new ArrayList<>();
+	
+	
 	public Integer getCategoriaId() {
 		return categoriaId;
 	}
@@ -44,5 +47,6 @@ public class Categoria {
 	public void setCursos(List<Curso> cursos) {
 		this.cursos = cursos;
 	}
+
 
 }

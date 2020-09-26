@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -39,7 +41,7 @@ public class AuthController {
 
     // Auth : authentication ->
     @PostMapping("/api/auth/register")
-    public ResponseEntity<RegistrationResponse> postRegisterUser(@RequestBody RegistrationRequest req) {
+    public ResponseEntity<RegistrationResponse> postRegisterUser(@Valid @RequestBody RegistrationRequest req, BindingResult results) {
         RegistrationResponse r = new RegistrationResponse();
 
         // aca creamos la persona y el usuario a traves del service.

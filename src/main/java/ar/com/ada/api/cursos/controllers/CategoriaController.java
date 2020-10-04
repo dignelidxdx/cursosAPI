@@ -29,7 +29,7 @@ public class CategoriaController {
     @GetMapping("/categorias")
     public ResponseEntity<List<Categoria>> listarCategorias(){
 
-        return ResponseEntity.ok(categoriaService.obtenerCategoria());
+        return ResponseEntity.ok(categoriaService.listarTodas());
    
     }
 
@@ -44,7 +44,7 @@ public class CategoriaController {
 
         }
 
-        categoriaService.crearCategoria(categoria);
+        categoriaService.crear(categoria);
 
         GenericResponse r = new GenericResponse();
         r.isOk = true;
@@ -66,7 +66,7 @@ public class CategoriaController {
 
         categoria.setNombre(cMR.nombre);
         categoria.setDescripcion(cMR.descripcion);
-        Categoria categoriaActualizada = categoriaService.actualizarCategoria(categoria);
+        Categoria categoriaActualizada = categoriaService.actualizar(categoria);
 
         GenericResponse r = new GenericResponse();
         r.isOk = true;

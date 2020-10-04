@@ -20,14 +20,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RestController
 public class EstudianteController {
 
+    // Declarar un service
+
     @Autowired
     EstudianteService estudianteService;
 
     @Autowired
     CursoService cursoService;
 
+    // Post: que recibimos algo, que nos permite instanciar una Categoria y ponerle
+    // datos.
     @PostMapping("/api/estudiantes")
-    @PreAuthorize("hasAuthority('CLAIM_userType_STAFF')")
     public ResponseEntity<GenericResponse> crearEstudiante(@RequestBody Estudiante estudiante) {
 
         if (estudianteService.estudianteExiste(estudiante)) {
@@ -45,10 +48,13 @@ public class EstudianteController {
         r.message = "Estudiante creada con exito";
         r.id = estudiante.getEstudianteId();
 
+        // Aca vamos a usar O.
+        // Cuando se crea, generalmetnte para los puristas, se usa el
+        // CreatedAtAction(201)
         return ResponseEntity.ok(r);
 
     }
-
+//Metodo de autorizacion 4: en este caso, accedo a la variable del parametro.
     @GetMapping("/api/estudiantes/{id}")
     @PreAuthorize("hasAuthority('CLAIM_userType_STAFF') or (hasAuthority('CLAIM_userType_ESTUDIANTE') and hasAuthority('CLAIM_entityId_'+#id))")
     ResponseEntity<Estudiante> buscarPorIdEstudiante(@PathVariable Integer id) {
@@ -60,13 +66,29 @@ public class EstudianteController {
         return ResponseEntity.ok(estudiante);
     }
 
+    // En este caso se llama al metodo buscarPorId en el DocenteService 2 veces
+    // @GetMapping("/api/docentes/{id}")
+    // ResponseEntity<Docente> buscarPorIdDocente(@PathVariable Integer id) {
+    // if (docenteService.buscarPorId(id) == null)
+    // return ResponseEntity.notFound().build();
+    // return ResponseEntity.ok(docenteService.buscarPorId(id));
+    // }
+
     @GetMapping("/api/estudiantes")
-    @PreAuthorize("hasAuthority('CLAIM_userType_STAFF') or (hasAuthority('CLAIM_userType_ESTUDIANTE') and hasAuthority('CLAIM_entityId_'+#id))")
-    public ResponseEntity<List<Estudiante>> listarEstudiantes() {
+    ResponseEntity<List<Estudiante>> listarEstudiantes() {
         List<Estudiante> listaEstudiantes = estudianteService.listaEstudiantes();
         return ResponseEntity.ok(listaEstudiantes);
     }
 
+    /*
+     * - Estudiante -> Perspectiva estudiante: Ver cursos disponibles! (son todos
+     * los cursos donde no este inscripto) - Estudiante -> ver mis cursos(solo
+     * pueden verlo los estudiantes)
+     * 
+     * - /api/estudiantes/{id}/cursos?disponibles=true&categoria=1 o -
+     * /api/estudiantes/{id}/cursos - /api/estudiantes/{id}/cursos/disponibles -> en
+     * este caso es un metodo separado
+     */
     @GetMapping("/api/estudiantes/{id}/cursos")
     @PreAuthorize("hasAuthority('CLAIM_userType_STAFF') or (hasAuthority('CLAIM_userType_ESTUDIANTE') and hasAuthority('CLAIM_entityId_'+#id))")
     public ResponseEntity<List<CursoEstudianteResponse>> listaCursos(@PathVariable Integer id,
@@ -74,7 +96,7 @@ public class EstudianteController {
         List<Curso> listaCursos = new ArrayList<>();
         Estudiante estudiante = estudianteService.buscarPorId(id);
         if (disponibles) {
-      
+            // listaCursos = algo que nos devuelva la llista de cursos disponibles.
             listaCursos = cursoService.listaCursosDisponibles(estudiante);
         } else {
             listaCursos = estudiante.getCursosQueAsiste();
@@ -82,6 +104,7 @@ public class EstudianteController {
 
         List<CursoEstudianteResponse> listaSimplificada = new ArrayList<>();
 
+        // Transformar, cada item de la lista de cursos, a un CursoEstudianteResponse
         for (Curso curso : listaCursos) {
             CursoEstudianteResponse nuevoCurso = new CursoEstudianteResponse();
             nuevoCurso.nombre = curso.getNombre();
@@ -104,16 +127,17 @@ public class EstudianteController {
 
     }
 
+    // - Estudiante -> Inscribirse a un curso(por defecto haremos que la inscripcion
+    // se apruebe de una)!
+
     @PostMapping("/api/estudiantes/{id}/inscripciones")
-    @PreAuthorize("hasAuthority('CLAIM_userType_ESTUDIANTE') and hasAuthority('CLAIM_entityId_'+#id)")
     public ResponseEntity<GenericResponse> inscribir(@PathVariable Integer id, @RequestBody InscripcionRequest iR) {
 
-        Inscripcion inscripcionCreada = estudianteService.inscribir(id, iR.cursoId);
-
+        Inscripcion inscripcionCreada = estudianteService.inscribir(id, iR.cursoId, iR.medioPago, iR.infoMedioPago);
         GenericResponse gR = new GenericResponse();
         if (inscripcionCreada == null) {
             gR.isOk = false;
-            gR.message = "La inscripcion no pudo ser realizada porque ya existe";
+            gR.message = "La inscripcion no pudo ser realizada";
             return ResponseEntity.badRequest().body(gR);
         } else {
             gR.isOk = true;

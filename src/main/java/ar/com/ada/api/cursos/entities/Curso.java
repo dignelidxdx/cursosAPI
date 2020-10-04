@@ -1,5 +1,6 @@
 package ar.com.ada.api.cursos.entities;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+
 
 @Entity
 @Table(name = "curso")
@@ -20,14 +22,12 @@ public class Curso {
     private String descripcion;
     // cursosQueDicta para diferenciar los cursos de docente de los de estudiante
     @ManyToMany(mappedBy = "cursosQueDicta")
-    private List<Docente> docentes = new ArrayList<>();
-
+    private List<Docente> docentes = new ArrayList<>();;
     @ManyToMany(mappedBy = "cursosQueAsiste")
-    private List<Estudiante> estudiantes = new ArrayList<>();
-    
+    private List<Estudiante> estudiantes = new ArrayList<>();;
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Clase> clases = new ArrayList<>();
+    private List<Clase> clases;
     // @JsonIgnore
     @ManyToMany(mappedBy = "cursos")
     private List<Categoria> categorias = new ArrayList<>();
@@ -38,6 +38,10 @@ public class Curso {
     private List<Inscripcion> inscripciones = new ArrayList<>();;
     @Column(name = "duracion_horas")
     private Integer duracionHoras;
+
+    private BigDecimal precio;
+
+    private String moneda;
 
     public Integer getCursoId() {
         return cursoId;
@@ -145,6 +149,22 @@ public class Curso {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public BigDecimal getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(BigDecimal precio) {
+        this.precio = precio;
+    }
+
+    public String getMoneda() {
+        return moneda;
+    }
+
+    public void setMoneda(String moneda) {
+        this.moneda = moneda;
     }
 
 }

@@ -13,15 +13,16 @@ public class Estudiante extends Persona {
     @Column(name = "estudiante_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer estudianteId;
-
     @JsonIgnore
     @ManyToMany
     @JoinTable(name = "estudiante_x_curso", joinColumns = @JoinColumn(name = "estudiante_id"), inverseJoinColumns = @JoinColumn(name = "curso_id"))
     private List<Curso> cursosQueAsiste = new ArrayList<>();
-   
     @JsonIgnore
     @OneToOne(mappedBy = "estudiante", cascade = CascadeType.ALL) // nombre del atributo en el obj usuario
     private Usuario usuario;
+
+    @Column(name = "pagada_deudor_id")
+    private Integer PagADA_deudorId; 
 
     public Integer getEstudianteId() {
         return estudianteId;
@@ -47,4 +48,14 @@ public class Estudiante extends Persona {
         this.usuario = usuario;
         usuario.setEstudiante(this);
     }
+
+    public Integer getPagADA_deudorId() {
+        return PagADA_deudorId;
+    }
+
+    public void setPagADA_deudorId(Integer pagADA_deudorId) {
+        PagADA_deudorId = pagADA_deudorId;
+    }
+
+    
 }
